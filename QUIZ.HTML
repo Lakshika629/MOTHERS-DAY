@@ -1,0 +1,152 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>Divine Mom Quiz</title>
+  <style>
+    body {
+      margin: 0;
+      font-family: 'Segoe UI', sans-serif;
+      background-image: url('assets/images/temple-bg.jpg');
+      background-size: cover;
+      background-position: center;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      min-height: 100vh;
+    }
+
+    .quiz-box {
+      background: rgba(255, 255, 255, 0.97);
+      padding: 30px;
+      border-radius: 20px;
+      box-shadow: 0 0 15px rgba(0,0,0,0.1);
+      max-width: 700px;
+      width: 90%;
+      text-align: center;
+    }
+
+    h1 {
+      color: #6a1b9a;
+      font-size: 2em;
+      margin-bottom: 20px;
+    }
+
+    .question {
+      font-weight: bold;
+      margin: 15px 0 5px;
+      font-size: 1.1em;
+      color: #333;
+    }
+
+    .options label {
+      display: block;
+      margin: 6px 0;
+    }
+
+    .button {
+      margin-top: 20px;
+      padding: 10px 20px;
+      background-color: #6a1b9a;
+      color: white;
+      border: none;
+      border-radius: 25px;
+      font-size: 1em;
+      cursor: pointer;
+    }
+
+    .button:hover {
+      background-color: #4a0c6f;
+    }
+
+    #result {
+      margin-top: 20px;
+      font-size: 1.3em;
+      color: #444;
+    }
+
+    .certificate-button {
+      margin-top: 30px;
+      padding: 10px 20px;
+      background-color: #d63384;
+      color: white;
+      border: none;
+      border-radius: 25px;
+      font-size: 1em;
+      cursor: pointer;
+    }
+
+    .certificate-button:hover {
+      background-color: #b21863;
+    }
+  </style>
+</head>
+<body>
+  <div class="quiz-box">
+    <h1>Divine Mom Quiz 🌸🙏</h1>
+    <form id="quizForm">
+      <div class="question">1. Who was the mother of Lord Rama?</div>
+      <div class="options">
+        <label><input type="radio" name="q1" value="correct"> Kaushalya</label>
+        <label><input type="radio" name="q1" value="wrong"> Kaikeyi</label>
+        <label><input type="radio" name="q1" value="wrong"> Sumitra</label>
+      </div>
+
+      <div class="question">2. Who raised Lord Krishna as her son?</div>
+      <div class="options">
+        <label><input type="radio" name="q2" value="correct"> Yashoda</label>
+        <label><input type="radio" name="q2" value="wrong"> Devaki</label>
+        <label><input type="radio" name="q2" value="wrong"> Radha</label>
+      </div>
+
+      <div class="question">3. Who was the mother of Lakshmana?</div>
+      <div class="options">
+        <label><input type="radio" name="q3" value="correct"> Sumitra</label>
+        <label><input type="radio" name="q3" value="wrong"> Kaikeyi</label>
+        <label><input type="radio" name="q3" value="wrong"> Mandodari</label>
+      </div>
+
+      <div class="question">4. Who is known as the mother of the universe in Hinduism?</div>
+      <div class="options">
+        <label><input type="radio" name="q4" value="wrong"> Lakshmi</label>
+        <label><input type="radio" name="q4" value="wrong"> Saraswati</label>
+        <label><input type="radio" name="q4" value="correct"> Durga</label>
+      </div>
+
+      <div class="question">5. What value does Mata Sita represent in the Ramayana?</div>
+      <div class="options">
+        <label><input type="radio" name="q5" value="correct"> Devotion and strength</label>
+        <label><input type="radio" name="q5" value="wrong"> Wealth</label>
+        <label><input type="radio" name="q5" value="wrong"> Magic</label>
+      </div>
+
+      <button type="button" class="button" onclick="submitQuiz()">Submit Quiz 🌿</button>
+      <button type="button" class="button" onclick="location.reload()">Try Again 🔁</button>
+    </form>
+
+    <div id="result"></div>
+
+    <!-- Button to go to the Certificate Page -->
+    <a href="CERTIFICATE.HTML">
+      <button class="certificate-button">Go to Certificate Page 🎉</button>
+    </a>
+  </div>
+
+  <script>
+    function submitQuiz() {
+      const answers = document.querySelectorAll('input[type="radio"]:checked');
+      let score = 0;
+
+      answers.forEach(ans => {
+        if (ans.value === "correct") {
+          score++;
+        }
+      });
+
+      const result = document.getElementById('result');
+      result.innerHTML = `<p>You got <strong>${score}/5</strong> right, Maa! 🌸<br>
+        ${score >= 4 ? "You are truly full of divine wisdom! 🙏" : "You are still our everything 💖"}</p>`;
+    }
+  </script>
+</body>
+</html>

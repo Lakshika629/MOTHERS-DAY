@@ -1,0 +1,187 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <title>Mother's Day Memory Game</title>
+  <style>
+    body {
+      font-family: Arial, sans-serif;
+      background-image: url('assets/images/floral-bg.jpg');
+      background-size: cover;
+      background-position: center;
+      margin: 0;
+      padding: 0;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      min-height: 100vh;
+    }
+
+    h1 {
+      color: #d63384;
+      margin: 20px 0;
+    }
+
+    #game-board {
+      display: grid;
+      grid-template-columns: repeat(4, 100px);
+      grid-gap: 15px;
+      padding: 20px;
+      background: rgba(255,255,255,0.95);
+      border-radius: 15px;
+      box-shadow: 0 0 20px rgba(0,0,0,0.1);
+    }
+
+    .card {
+      width: 100px;
+      height: 100px;
+      background-color: #ffc0cb;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 2em;
+      border-radius: 10px;
+      cursor: pointer;
+      user-select: none;
+      transition: background-color 0.3s;
+    }
+
+    .card.revealed {
+      background-color: #fff;
+    }
+
+    .card.matched {
+      background-color: #a3d9a5;
+      cursor: default;
+    }
+
+    .button {
+      margin-top: 20px;
+      padding: 10px 20px;
+      background-color: #d63384;
+      color: white;
+      border: none;
+      border-radius: 25px;
+      font-size: 1em;
+      cursor: pointer;
+    }
+
+    .button:hover {
+      background-color: #b21863;
+    }
+
+    .quiz-button {
+      margin-top: 20px;
+      padding: 10px 20px;
+      background-color: #b31265;
+      color: white;
+      border: none;
+      border-radius: 25px;
+      font-size: 1em;
+      cursor: pointer;
+      text-decoration: none;
+    }
+
+    .quiz-button:hover {
+      background-color: #9e0c55;
+    }
+
+  </style>
+</head>
+<body>
+  <h1>Memory Game for You, Mom 💖</h1>
+  <div id="game-board"></div>
+  <button class="button" onclick="startGame()">Restart Game 🔁</button>
+  
+  <!-- New Quiz Button -->
+  <a class="quiz-button" href="QUIZ.HTML">Go to the Quiz Page 📝</a>
+
+  <script>
+    const symbols = ['🌸', '💐', '☕', '❤️', '🎁', '🍫', '🌷', '👩‍👧'];
+    let cards = [];
+    let firstCard, secondCard;
+    let lockBoard = false;
+    let matchedCards = 0;
+
+    function startGame() {
+      // Reset variables
+      cards = [...symbols, ...symbols]; // Duplicate for pairs
+      shuffle(cards);
+
+      const board = document.getElementById('game-board');
+      board.innerHTML = ''; // Clear previous
+
+      cards.forEach((symbol, index) => {
+        const card = document.createElement('div');
+        card.classList.add('card');
+        card.dataset.symbol = symbol;
+        card.addEventListener('click', revealCard);
+        board.appendChild(card);
+      });
+
+      firstCard = null;
+      secondCard = null;
+      lockBoard = false;
+      matchedCards = 0;
+    }
+
+    function shuffle(array) {
+      for (let i = array.length - 1; i > 0; i--) {
+        const j = Math.floor(Math.random() * (i + 1));
+        [array[i], array[j]] = [array[j], array[i]];
+      }
+    }
+
+    function revealCard(e) {
+      if (lockBoard) return;
+      const card = e.target;
+      if (card.classList.contains('revealed') || card.classList.contains('matched')) return;
+
+      card.textContent = card.dataset.symbol;
+      card.classList.add('revealed');
+
+      if (!firstCard) {
+        firstCard = card;
+        return;
+      }
+
+      secondCard = card;
+      checkForMatch();
+    }
+
+    function checkForMatch() {
+      if (firstCard.dataset.symbol === secondCard.dataset.symbol) {
+        firstCard.classList.add('matched');
+        secondCard.classList.add('matched');
+        matchedCards++;
+
+        // If all cards matched, show the Quiz Button
+        if (matchedCards === symbols.length) {
+          setTimeout(() => {
+            alert("Great job, you matched all pairs! Now you can go to the quiz.");
+          }, 500);
+        }
+
+        resetTurn();
+      } else {
+        lockBoard = true;
+        setTimeout(() => {
+          firstCard.textContent = '';
+          secondCard.textContent = '';
+          firstCard.classList.remove('revealed');
+          secondCard.classList.remove('revealed');
+          resetTurn();
+        }, 1000);
+      }
+    }
+
+    function resetTurn() {
+      [firstCard, secondCard] = [null, null];
+      lockBoard = false;
+    }
+
+    startGame();
+  </script>
+</body>
+</html>
